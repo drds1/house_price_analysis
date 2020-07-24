@@ -1,8 +1,8 @@
 # UK House Price Time-series by region
 
-The Python script below ingests house-level 
+The `house_price_analysis.py` script ingests house-level 
 houseprice data and aggregates into a daily 
-timeseries by area. Currently includes the picturesque 
+timeseries by UK geographic region. Current regions include the picturesque 
 Nottinghamshire village of Burton Joyce, all of Nottinghamshire itself, 
 Exeter and all Devon areas. Further analysis to follow.
 
