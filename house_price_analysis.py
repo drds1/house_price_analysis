@@ -81,5 +81,5 @@ if __name__ == '__main__':
     plt.legend()
     plt.tight_layout()
     plt.grid(b=None, which='major', axis='both')
-    plt.savefig('house_price_burtonjoyce.pdf')
+    plt.savefig('house_price_burtonjoyce.png')
 
