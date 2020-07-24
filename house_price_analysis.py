@@ -2,8 +2,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pylab as plt
 
-
-
+'''
+util functions for house price analysis
+'''
 def get_data(file):
     df = pd.read_csv(file)
     cols = ['price_paid',
@@ -40,41 +41,36 @@ def plot_one_group(fig, ax1, dfin,color='k', label=None):
     return fig, ax1
 
 
-
+'''
+script to ingest, group data and generate plots
+'''
 if __name__ == '__main__':
     # data ingestion Data from hm land registry
-    # https://landregistry.data.gov.uk/\
+    # https://landregistry.data.gov.uk/
     df = get_data('./data/all_notts.csv')
     # isolate burton joyce
     dfbj = df[df['locality'] == 'BURTON JOYCE']
-
     #load devon
     dfd = get_data('./data/all_devon.csv')
     # isolate exeter
     dfdex = dfd[dfd['district']=='EXETER']
-
     #load london
     #dfl = get_data('./data/all_london.csv')
+
+    #group inputs together and indicate plotting colour
+    data_dict = {'All Notts':[df,'b'],
+                 'Burton Joyce':[dfbj,'r'],
+                 'All Devon':[dfd,'g'],
+                 'Exeter':[dfdex,'y']}
 
     #plot the aggregated data for burton joyce and compare to national average
     plt.close()
     fig = plt.figure()
     ax1 = fig.add_subplot(111)
-    agg_bj = group_houseprice(dfbj,datecol='deed_date',val='price_paid',cadence='M')
-    fig, ax1 = plot_one_group(fig, ax1, agg_bj, color='b',label='Burton Joyce')
-
-    agg_all = group_houseprice(df,datecol='deed_date',val='price_paid',cadence='M')
-    fig, ax1 = plot_one_group(fig, ax1, agg_all, color='r',label='All Notts')
-
-    agg_all = group_houseprice(dfd, datecol='deed_date', val='price_paid', cadence='M')
-    fig, ax1 = plot_one_group(fig, ax1, agg_all, color='g', label='All Devon')
-
-    agg_all = group_houseprice(dfdex, datecol='deed_date', val='price_paid', cadence='M')
-    fig, ax1 = plot_one_group(fig, ax1, agg_all, color='y', label='Exeter')
-
-    #agg_all = group_houseprice(dfl, datecol='deed_date', val='price_paid', cadence='M')
-    #fig, ax1 = plot_one_group(fig, ax1, agg_all, color='y', label='London')
-
+    for label, data_info in data_dict.items():
+        data, color = data_info
+        agg = group_houseprice(data,datecol='deed_date',val='price_paid',cadence='M')
+        fig, ax1 = plot_one_group(fig, ax1, agg, color=color,label=label)
     ax1.set_ylim([0,500000])
     ax1.set_ylabel('£')
     ax1.set_title('median house price\n3-month rolling average')
