@@ -1,4 +1,4 @@
-# UK House Price Time-series by region
+# UK House Price Time-series by Region
 
 The `house_price_analysis.py` script ingests house-level 
 houseprice data and aggregates into a daily 
