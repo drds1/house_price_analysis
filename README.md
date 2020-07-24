@@ -12,5 +12,10 @@ The data is too large for this repo but is available from
 HM land registry [here](https://landregistry.data.gov.uk/app/ppd).
 
 
+## Output
+
+![Test Image 1](house_price_burtonjoyce.png)
+
+
 
 
