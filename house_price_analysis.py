@@ -41,10 +41,12 @@ def plot_one_group(fig, ax1, dfin,color='k', label=None):
     return fig, ax1
 
 
-'''
-script to ingest, group data and generate plots
-'''
-if __name__ == '__main__':
+
+def run_notts_devon_analysis():
+    '''
+
+    :return:
+    '''
     # data ingestion Data from hm land registry
     # https://landregistry.data.gov.uk/
     df = get_data('./data/all_notts.csv')
@@ -78,4 +80,43 @@ if __name__ == '__main__':
     plt.tight_layout()
     plt.grid(b=None, which='major', axis='both')
     plt.savefig('house_price_burtonjoyce.png')
+
+
+
+'''
+script to ingest, group data and generate plots
+'''
+if __name__ == '__main__':
+    # data ingestion Data from hm land registry
+    # https://landregistry.data.gov.uk/
+    #df = get_data('./data/all_notts.csv')
+    # isolate burton joyce
+    #dfbj = df[df['locality'] == 'BURTON JOYCE']
+    #load devon
+    #dfd = get_data('./data/all_devon.csv')
+    # isolate exeter
+    #dfdex = dfd[dfd['district']=='EXETER']
+    #load london
+    #dfl = get_data('./data/all_london.csv')
+
+    df = get_data('./data/all_matlock.csv')
+
+    #group inputs together and indicate plotting colour
+    data_dict = {'Matlock Bath':[df,'b']}
+
+    #plot the aggregated data for burton joyce and compare to national average
+    plt.close()
+    fig = plt.figure()
+    ax1 = fig.add_subplot(111)
+    for label, data_info in data_dict.items():
+        data, color = data_info
+        agg = group_houseprice(data,datecol='deed_date',val='price_paid',cadence='M')
+        fig, ax1 = plot_one_group(fig, ax1, agg, color=color,label=label)
+    ax1.set_ylim([0,500000])
+    ax1.set_ylabel('£')
+    ax1.set_title('median house price\n3-month rolling average')
+    plt.legend()
+    plt.tight_layout()
+    plt.grid(b=None, which='major', axis='both')
+    plt.savefig('house_price_matlockbath.png')
 
